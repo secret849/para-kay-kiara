@@ -53,6 +53,8 @@ const musicMute = $('music-mute');
 const musicLoop = $('music-loop');
 const musicStatus = $('music-status');
 const musicFile = $('music-file');
+const musicMiniStatus = $('music-mini-status');
+const musicMiniProgress = $('music-mini-progress');
 
 greeting.textContent = herName ? `To ${herName}` : 'To you';
 signature.textContent = senderName;
@@ -88,6 +90,12 @@ function syncMusicButton() {
   musicToggle.textContent = playing ? 'Ⅱ' : '▶';
   musicToggle.setAttribute('aria-pressed', String(playing));
   musicToggle.setAttribute('aria-label', playing ? 'Pause music' : 'Play music');
+  if (playing) {
+    musicMiniStatus.textContent = 'Now playing ♡';
+    musicDock.classList.remove('music-missing');
+  } else if (!musicDock.classList.contains('music-missing')) {
+    musicMiniStatus.textContent = 'Tap to play';
+  }
 }
 function syncMusicProgress() {
   const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
@@ -95,6 +103,7 @@ function syncMusicProgress() {
   musicProgress.value = duration ? String(Math.round(audio.currentTime / duration * 1000)) : '0';
   musicCurrent.textContent = musicTime(audio.currentTime);
   musicDuration.textContent = musicTime(duration);
+  musicMiniProgress.style.transform = 'scaleX(' + (duration ? Math.min(1, audio.currentTime / duration) : 0) + ')';
 }
 async function toggleMusic() {
   if (!audio.paused) { audio.pause(); return; }
@@ -102,7 +111,9 @@ async function toggleMusic() {
   try { await audio.play(); musicStatus.textContent = 'Enjoy listening ♡'; }
   catch {
     openMusicPanel(true);
-    musicStatus.textContent = 'Song unavailable. Add music/love.mp3 to the repository, or choose a local audio file.';
+    musicStatus.textContent = 'Audio file is not on this website. Choose your MP3 below for local preview. A hosted song needs an audio file at music/love.mp3.';
+    musicDock.classList.add('music-missing');
+    musicMiniStatus.textContent = 'Audio file missing';
   }
 }
 musicToggle.addEventListener('click', toggleMusic);
@@ -111,13 +122,20 @@ musicClose.addEventListener('click', () => openMusicPanel(false));
 audio.addEventListener('play', syncMusicButton);
 audio.addEventListener('pause', syncMusicButton);
 audio.addEventListener('ended', syncMusicButton);
-audio.addEventListener('loadedmetadata', () => { syncMusicProgress(); musicStatus.textContent='Ready when you are ♡'; });
+audio.addEventListener('loadedmetadata', () => {
+  syncMusicProgress();
+  musicStatus.textContent = 'Ready when you are ♡';
+  musicDock.classList.remove('music-missing');
+  musicMiniStatus.textContent = 'Ready to play';
+});
 audio.addEventListener('timeupdate', syncMusicProgress);
 audio.addEventListener('durationchange', syncMusicProgress);
 audio.addEventListener('error', () => {
   if (!audio.error) return;
-  musicStatus.textContent = 'Audio not found. Add music/love.mp3 or select an audio file for preview.';
+  musicStatus.textContent = 'The website cannot find music/love.mp3. Select your MP3 below to play it on this device.';
+  musicDock.classList.add('music-missing');
   syncMusicButton();
+  musicMiniStatus.textContent = 'Audio file missing';
 });
 musicProgress.addEventListener('input', () => {
   if (Number.isFinite(audio.duration) && audio.duration > 0) audio.currentTime = Number(musicProgress.value)/1000*audio.duration;
@@ -150,6 +168,8 @@ musicFile.addEventListener('change', () => {
   if(temporaryUrl) URL.revokeObjectURL(temporaryUrl);
   temporaryUrl=URL.createObjectURL(file);
   audio.src=temporaryUrl;
+  musicDock.classList.remove('music-missing');
+  musicMiniStatus.textContent = 'Loading your MP3';
   audio.load();
   musicStatus.textContent='Local preview: '+file.name;
   toggleMusic();
