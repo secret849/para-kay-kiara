@@ -176,3 +176,11 @@ to{opacity:1;transform:translateY(0) scale(1)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
 .heart-burst,.heart-ending{display:none !important}
 }
+
+/* Player availability and mini track progress */
+.music-mini-status{font-size:9px!important;color:#ae7a8c!important;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.music-mini-progress{display:block;height:3px;width:100%;margin-top:3px;border-radius:10px;background:#eed9df;overflow:hidden}
+.music-mini-progress>span{display:block;width:100%;height:100%;background:#b67187;transform:scaleX(0);transform-origin:left}
+.music-dock.music-missing .music-mini-status{color:#b35269!important}
+.music-dock.music-missing .music-play{background:#976576}
+@media(max-width:480px){.music-mini{min-width:225px}.music-mini-status{max-width:115px}}
