@@ -87,97 +87,46 @@
 
     [hidden] { display: none !important; }
 
-    /* compact music player */
-    .music-dock {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      z-index: 60;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 8px;
-    }
 
-    .music-toggle {
-      border: 1px solid #e4cfd2;
-      background: rgba(255,253,249,.96);
-      color: #8a6070;
-      border-radius: 999px;
-      padding: 10px 16px;
-      font: 500 13px 'Jost', sans-serif;
-      box-shadow: var(--shadow-soft);
-      cursor: pointer;
-      transition: .2s ease;
-    }
-
-    .music-toggle:hover {
-      transform: translateY(-1px);
-      background: #fff;
-    }
-
-    .music-panel {
-      width: min(300px, calc(100vw - 32px));
-      background: rgba(255,250,246,.98);
-      border: 1px solid #ead9d7;
-      border-radius: 16px;
-      padding: 12px;
-      box-shadow: 0 18px 40px rgba(59,46,42,.15);
-      backdrop-filter: blur(10px);
-    }
-
-    .music-panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 8px;
-      color: #875b6c;
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .music-close {
-      border: 0;
-      background: transparent;
-      color: #875b6c;
-      font-size: 22px;
-      line-height: 1;
-      cursor: pointer;
-      padding: 2px 4px;
-    }
-
-    .music-player {
-      width: 100%;
-      min-height: 176px;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #f4e7e6;
-      display: grid;
-      place-items: center;
-      color: #896c73;
-      font-size: 12px;
-      text-align: center;
-    }
-
-    .music-player iframe {
-      width: 100%;
-      height: 176px;
-      border: 0;
-    }
-
-    .music-panel p,
-    .music-panel a {
-      font-size: 11px;
-      color: #8a7372;
-    }
-
-    .music-panel a {
-      color: #94566b;
-      text-decoration: none;
-    }
-
-    .music-panel a:hover { text-decoration: underline; }
+    /* Custom, self-hosted music player */
+    .music-dock { position:fixed; top:16px; right:16px; z-index:60; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+    .music-mini, .music-panel { background:rgba(255,250,248,.97); border:1px solid #ead2d9; box-shadow:0 15px 38px rgba(75,42,54,.16); backdrop-filter:blur(14px); }
+    .music-mini { display:flex; align-items:center; min-width:225px; gap:10px; padding:9px; border-radius:18px; }
+    .music-cover-btn { border:0; background:none; padding:0; border-radius:50%; cursor:pointer; display:grid; place-items:center; }
+    .music-disc { position:relative; display:grid; place-items:center; flex-shrink:0; width:44px; height:44px; border-radius:50%; background:repeating-radial-gradient(circle,transparent 0 5px,rgba(55,24,37,.18) 5px 6px),conic-gradient(#8a4e63,#d39daf,#e9c5be,#8a4e63,#c47e92,#8a4e63); box-shadow:inset 0 0 0 3px #ffffff32,0 3px 12px #6d3a4b38; }
+    .music-disc::before { content:""; width:39%; height:39%; border-radius:50%; background:#fff2ee; border:2px solid #d3a0ac; }
+    .music-disc::after { content:"♥"; position:absolute; font-size:13px; color:#b76981; }
+    .music-dock.is-playing .music-disc { animation:vinyl-spin 7s linear infinite; }
+    @keyframes vinyl-spin { to { transform:rotate(360deg); } }
+    .music-label { display:flex; flex:1; flex-direction:column; min-width:0; }
+    .music-label strong { font:600 19px/1.15 'Cormorant Garamond',serif; color:#704354; }
+    .music-label span { font-size:10px; color:#a07c85; }
+    .music-play { width:38px; height:38px; flex-shrink:0; border-radius:50%; border:0; background:#b67187; color:white; font-size:17px; cursor:pointer; }
+    .music-play:hover { background:#9e526c; }
+    .music-panel { width:min(320px,calc(100vw - 24px)); border-radius:19px; padding:17px; color:#835668; }
+    .music-panel-header { display:flex; align-items:center; justify-content:space-between; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#a17e85; }
+    .music-close { font-size:23px; border:0; color:#996b7b; background:none; cursor:pointer; }
+    .music-hero { display:flex; align-items:center; gap:15px; padding:16px 0; }
+    .music-hero .music-disc { width:88px; height:88px; }
+    .music-hero .music-disc::after { font-size:24px; }
+    .music-info { display:flex; flex-direction:column; }
+    .music-info strong { font:600 32px/1 'Cormorant Garamond',serif; }
+    .music-info span { font-size:12px; color:#a07c85; }
+    .music-info small { margin-top:7px; color:#b58f9b; font-size:10px; }
+    .music-range { width:100%; accent-color:#b67187; cursor:pointer; }
+    .music-range:disabled { opacity:.4; cursor:default; }
+    .music-timings { display:flex; justify-content:space-between; font-size:11px; color:#a48188; font-variant-numeric:tabular-nums; margin-top:4px; }
+    .music-ctrl-row { display:flex; align-items:center; justify-content:space-between; gap:11px; margin-top:15px; }
+    .music-volume-wrap { display:flex; align-items:center; gap:5px; flex:1; min-width:0; }
+    .music-volume-wrap input { max-width:100px; }
+    .music-small-btn { min-width:36px; height:34px; border-radius:999px; border:1px solid #e5cbd3; background:#fff7f5; color:#956478; cursor:pointer; }
+    .music-small-btn[aria-pressed="true"] { background:#b67187; color:white; }
+    .music-status { margin:13px 0 10px; color:#997c81; font-size:11px; line-height:1.5; min-height:17px; }
+    .music-pick { display:inline-block; border:1px dashed #d9afba; border-radius:12px; background:#fff8f5; padding:9px 12px; cursor:pointer; font-size:11px; color:#945e74; }
+    .music-help { margin:9px 0 0; font-size:10px; color:#ad8f95; line-height:1.4; }
+    .music-dock button:focus-visible,.music-panel input:focus-visible,.music-pick:focus-visible { outline:2px solid #7e455b; outline-offset:3px; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    @media(max-width:480px){.music-dock{top:12px;right:12px}.music-mini{min-width:210px}.music-panel{max-height:75vh;overflow:auto}.music-hero .music-disc{width:72px;height:72px}}
 
     /* bouquet intro */
     .bouquet-stage {
@@ -883,18 +832,28 @@
   <div class="hearts-layer" id="hearts-layer"></div>
   <div class="ending-hearts" id="ending-hearts"></div>
 
-  <aside class="music-dock" aria-label="Background music">
-    <button id="music-toggle" class="music-toggle" type="button" aria-pressed="false">♫ Play love.</button>
-
-    <div id="music-panel" class="music-panel" hidden>
-      <div class="music-panel-head">
-        <span>love. · wave to earth</span>
-        <button id="music-close" class="music-close" type="button" aria-label="Close music player">×</button>
-      </div>
-      <div id="music-player" class="music-player">Loading player when needed…</div>
-      <p>Autoplay may be blocked by your browser. If that happens, press play inside the player.</p>
-      <a href="https://www.youtube.com/watch?v=Q49pnA4jsp8" target="_blank" rel="noopener noreferrer">Open on YouTube ↗</a>
+  <aside class="music-dock" id="music-dock" aria-label="Music player">
+    <div class="music-mini">
+      <button id="music-expand" class="music-cover-btn" type="button" aria-label="Open music controls" aria-expanded="false" aria-controls="music-panel"><span class="music-disc" aria-hidden="true"></span></button>
+      <div class="music-label"><strong>love.</strong><span>wave to earth</span></div>
+      <button id="music-toggle" class="music-play" type="button" aria-label="Play music" aria-pressed="false">▶</button>
     </div>
+    <div id="music-panel" class="music-panel" hidden>
+      <div class="music-panel-header"><span>Your little soundtrack ♡</span><button id="music-close" class="music-close" type="button" aria-label="Hide player">×</button></div>
+      <div class="music-hero"><span class="music-disc" aria-hidden="true"></span><div class="music-info"><strong>love.</strong><span>wave to earth</span><small>our little moment ♡</small></div></div>
+      <label for="music-progress" class="sr-only">Seek song</label>
+      <input id="music-progress" class="music-range" type="range" min="0" max="1000" value="0" step="1" disabled>
+      <div class="music-timings"><span id="music-current">0:00</span><span id="music-duration">0:00</span></div>
+      <div class="music-ctrl-row">
+        <div class="music-volume-wrap"><button id="music-mute" class="music-small-btn" type="button" aria-label="Mute music" aria-pressed="false">♫</button><label for="music-volume" class="sr-only">Volume</label><input id="music-volume" class="music-range" type="range" min="0" max="1" step=".01" value=".65"></div>
+        <button id="music-loop" class="music-small-btn" type="button" aria-label="Repeat music" aria-pressed="true" title="Repeat music">↻</button>
+      </div>
+      <p id="music-status" class="music-status" role="status" aria-live="polite">Ready when you are ♡</p>
+      <label for="music-file" class="music-pick">Choose audio for local preview</label>
+      <input id="music-file" type="file" accept="audio/*" hidden>
+      <p class="music-help">Place an audio file you're allowed to host at <code>music/love.mp3</code>. Local preview files stay on your device.</p>
+    </div>
+    <audio id="music-audio" preload="metadata" src="music/love.mp3" loop></audio>
   </aside>
 
   <div class="stage">
@@ -1260,10 +1219,20 @@
     const heartsLayer = $('hearts-layer');
     const endingHearts = $('ending-hearts');
 
+    const musicDock = $('music-dock');
     const musicToggle = $('music-toggle');
+    const musicExpand = $('music-expand');
     const musicPanel = $('music-panel');
     const musicClose = $('music-close');
-    const musicPlayerWrap = $('music-player');
+    const audio = $('music-audio');
+    const musicProgress = $('music-progress');
+    const musicCurrent = $('music-current');
+    const musicDuration = $('music-duration');
+    const musicVolume = $('music-volume');
+    const musicMute = $('music-mute');
+    const musicLoop = $('music-loop');
+    const musicStatus = $('music-status');
+    const musicFile = $('music-file');
 
     greeting.textContent = herName ? `To ${herName}` : 'To you';
     signature.textContent = senderName;
@@ -1278,83 +1247,101 @@
     let drawingRAF = 0;
     let typingDone = false;
     let soundContext = null;
-
-    let ytPlayer = null;
-    let ytReady = false;
-    let ytLoading = false;
-    let pendingPlay = false;
-    let isPlaying = false;
+    let temporaryUrl = null;
 
     function wait(ms) {
       return new Promise(resolve => setTimeout(resolve, reducedMotion ? 0 : ms));
     }
-
-    function updateMusicButton(playing) {
-      isPlaying = playing;
-      musicToggle.textContent = playing ? '♫ Pause love.' : '♫ Play love.';
+    function musicTime(s) {
+      if (!Number.isFinite(s) || s < 0) return '0:00';
+      s = Math.floor(s);
+      return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+    }
+    function openMusicPanel(open) {
+      musicPanel.hidden = !open;
+      musicExpand.setAttribute('aria-expanded', String(open));
+      musicExpand.setAttribute('aria-label', open ? 'Hide music controls' : 'Open music controls');
+    }
+    function syncMusicButton() {
+      const playing = !audio.paused && !audio.ended;
+      musicDock.classList.toggle('is-playing', playing);
+      musicToggle.textContent = playing ? 'Ⅱ' : '▶';
       musicToggle.setAttribute('aria-pressed', String(playing));
+      musicToggle.setAttribute('aria-label', playing ? 'Pause music' : 'Play music');
     }
-
-    function loadYouTubePlayer() {
-      if (ytLoading) return;
-      ytLoading = true;
-
-      window.onYouTubeIframeAPIReady = () => {
-        ytPlayer = new YT.Player('music-player', {
-          width: '100%',
-          height: '176',
-          videoId: 'Q49pnA4jsp8',
-          playerVars: {
-            playsinline: 1,
-            rel: 0,
-            controls: 1
-          },
-          events: {
-            onReady: (event) => {
-              ytReady = true;
-              if (pendingPlay) {
-                pendingPlay = false;
-                event.target.playVideo();
-              }
-            },
-            onStateChange: (event) => {
-              updateMusicButton(event.data === YT.PlayerState.PLAYING);
-            }
-          }
-        });
-      };
-
-      const script = document.createElement('script');
-      script.src = 'https://www.youtube.com/iframe_api';
-      script.async = true;
-      script.onerror = () => {
-        musicPlayerWrap.textContent = 'Could not load the YouTube player. Use the link below.';
-      };
-      document.head.appendChild(script);
+    function syncMusicProgress() {
+      const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+      musicProgress.disabled = duration <= 0;
+      musicProgress.value = duration ? String(Math.round(audio.currentTime / duration * 1000)) : '0';
+      musicCurrent.textContent = musicTime(audio.currentTime);
+      musicDuration.textContent = musicTime(duration);
     }
-
-    musicToggle.addEventListener('click', () => {
-      musicPanel.hidden = false;
-      if (!ytLoading) loadYouTubePlayer();
-
-      if (!ytReady) {
-        pendingPlay = true;
+    async function toggleMusic() {
+      if (!audio.paused) { audio.pause(); return; }
+      musicStatus.textContent = 'Loading audio…';
+      try { await audio.play(); musicStatus.textContent = 'Enjoy listening ♡'; }
+      catch {
+        openMusicPanel(true);
+        musicStatus.textContent = 'Song unavailable. Add music/love.mp3 to the repository, or choose a local audio file.';
+      }
+    }
+    musicToggle.addEventListener('click', toggleMusic);
+    musicExpand.addEventListener('click', () => openMusicPanel(musicPanel.hidden));
+    musicClose.addEventListener('click', () => openMusicPanel(false));
+    audio.addEventListener('play', syncMusicButton);
+    audio.addEventListener('pause', syncMusicButton);
+    audio.addEventListener('ended', syncMusicButton);
+    audio.addEventListener('loadedmetadata', () => { syncMusicProgress(); musicStatus.textContent='Ready when you are ♡'; });
+    audio.addEventListener('timeupdate', syncMusicProgress);
+    audio.addEventListener('durationchange', syncMusicProgress);
+    audio.addEventListener('error', () => {
+      if (!audio.error) return;
+      musicStatus.textContent = 'Audio not found. Add music/love.mp3 or select an audio file for preview.';
+      syncMusicButton();
+    });
+    musicProgress.addEventListener('input', () => {
+      if (Number.isFinite(audio.duration) && audio.duration > 0) audio.currentTime = Number(musicProgress.value)/1000*audio.duration;
+    });
+    musicVolume.addEventListener('input', () => {
+      audio.volume=Number(musicVolume.value);
+      audio.muted=false;
+      musicMute.textContent=audio.volume ? '♫' : '×';
+      musicMute.setAttribute('aria-pressed','false');
+      try { localStorage.setItem('letterMusicVolume', musicVolume.value); } catch {}
+    });
+    musicMute.addEventListener('click', () => {
+      audio.muted=!audio.muted;
+      musicMute.textContent=audio.muted ? '×' : '♫';
+      musicMute.setAttribute('aria-label',audio.muted?'Unmute music':'Mute music');
+      musicMute.setAttribute('aria-pressed',String(audio.muted));
+    });
+    musicLoop.addEventListener('click', () => {
+      audio.loop=!audio.loop;
+      musicLoop.setAttribute('aria-pressed', String(audio.loop));
+    });
+    musicFile.addEventListener('change', () => {
+      const file=musicFile.files?.[0];
+      if(!file) return;
+      if(!file.type.startsWith('audio/') && !/\.(mp3|wav|ogg|m4a|aac|flac)$/i.test(file.name)) {
+        musicStatus.textContent='Please select an audio file.';
         return;
       }
-
-      if (isPlaying) {
-        ytPlayer.pauseVideo();
-      } else {
-        ytPlayer.playVideo();
-      }
+      audio.pause();
+      if(temporaryUrl) URL.revokeObjectURL(temporaryUrl);
+      temporaryUrl=URL.createObjectURL(file);
+      audio.src=temporaryUrl;
+      audio.load();
+      musicStatus.textContent='Local preview: '+file.name;
+      toggleMusic();
     });
-
-    musicClose.addEventListener('click', () => {
-      if (ytReady && ytPlayer) ytPlayer.pauseVideo();
-      pendingPlay = false;
-      musicPanel.hidden = true;
-      updateMusicButton(false);
-    });
+    window.addEventListener('pagehide',()=>{ if(temporaryUrl) URL.revokeObjectURL(temporaryUrl); });
+    try {
+      const saved=localStorage.getItem('letterMusicVolume');
+      if(saved!==null && Number(saved)>=0 && Number(saved)<=1) musicVolume.value=String(Number(saved));
+    } catch {}
+    audio.volume=Number(musicVolume.value);
+    syncMusicButton();
+    syncMusicProgress();
 
     function playOpenSound() {
       try {
