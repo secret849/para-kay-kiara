@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=1">
+  <link rel="stylesheet" href="styles.css?v=20261010-2">
 </head>
 <body>
 
@@ -21,7 +21,7 @@
   <aside class="music-dock" id="music-dock" aria-label="Music player">
     <div class="music-mini">
       <button id="music-expand" class="music-cover-btn" type="button" aria-label="Open music controls" aria-expanded="false" aria-controls="music-panel"><span class="music-disc" aria-hidden="true"></span></button>
-      <div class="music-label"><strong>love.</strong><span>wave to earth</span></div>
+      <div class="music-label"><strong>love.</strong><span>wave to earth</span><span id="music-mini-status" class="music-mini-status">Ready to play</span><span class="music-mini-progress" aria-hidden="true"><span id="music-mini-progress"></span></span></div>
       <button id="music-toggle" class="music-play" type="button" aria-label="Play music" aria-pressed="false">▶</button>
     </div>
     <div id="music-panel" class="music-panel" hidden>
@@ -35,7 +35,7 @@
         <button id="music-loop" class="music-small-btn" type="button" aria-label="Repeat music" aria-pressed="true" title="Repeat music">↻</button>
       </div>
       <p id="music-status" class="music-status" role="status" aria-live="polite">Ready when you are ♡</p>
-      <label for="music-file" class="music-pick">Choose audio for local preview</label>
+      <label for="music-file" class="music-pick">Select your MP3 for preview</label>
       <input id="music-file" type="file" accept="audio/*" hidden>
       <p class="music-help">Place an audio file you're allowed to host at <code>music/love.mp3</code>. Local preview files stay on your device.</p>
     </div>
@@ -304,6 +304,6 @@
     </div>
   </section>
 
-  <script src="app.js?v=1" defer></script>
+  <script src="app.js?v=20261010-2" defer></script>
 </body>
 </html>
