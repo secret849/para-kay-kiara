@@ -8,11 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 
-  /* ============================================================
-     CUSTOMIZE HERE
-     Change the text below to make the page yours.
-     Nothing else in the file needs to change.
-     ============================================================ */
+
   :root{
     --her-name: "Kiara";
     --sender-name: "Someone who notices you";
@@ -453,10 +449,7 @@
       <h1 class="greeting" id="greeting"></h1>
 
       <div class="letter-body" id="letter-body">
-        <!-- ============================================================
-             CUSTOMIZE YOUR LETTER HERE.
-             Each <p> is one paragraph. Add, remove, or edit freely.
-             ============================================================ -->
+       
         <p>Hi Kiara, hopefully you're reading this as of now, September 14, 2026. Di na ko magpapaligoy-ligoy pa, pero I actually admire you. You're beautiful, and you have a beautiful smile. Minsan maingay yung room, pero minsan ikaw pa ang pinakamaingay dyan AHAHAHAHA.</p>
         <p>I don't know if you'll ever find out who wrote this, and that's fine. I just wanted you to know, once, that someone sees you. Not just how you look. The way you laugh at your own dark jokes (eme) before anyone else does. The way you're kind to people even when nobody's watching. Those are the things I actually admire.</p>
         <p>Wala naman akong hinihingi. I'm not going to walk up to you and make this awkward. I just wanted one honest moment where you knew someone thinks you're genuinely remarkable.</p>
@@ -487,16 +480,10 @@
   const herName = getComputedStyle(document.documentElement).getPropertyValue('--her-name').trim().replace(/"/g, '');
   const senderName = getComputedStyle(document.documentElement).getPropertyValue('--sender-name').trim().replace(/"/g, '');
 
-  /* ============================================================
-     CUSTOMIZE THE SECRET LINE HERE
-     ============================================================ */
+
   const secretMessage = "Libre kita McDo once na malaman mo kung sino ako.";
 
-  /* ============================================================
-     CUSTOMIZE YOUR NOTIFICATION TOPIC HERE
-     Pick something no one else would guess, not just "kiara" or "letter".
-     Example: "kiara-envelope-x92kd"
-     ============================================================ */
+ 
   const ntfyTopic = "CHANGE-THIS-TO-SOMETHING-ONLY-YOU-KNOW";
 
   document.getElementById('greeting').textContent = herName ? `To ${herName}` : 'To you';
