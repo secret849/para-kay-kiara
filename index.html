@@ -360,6 +360,72 @@
     .letter-body { font-size: 18px; }
   }
 
+
+  /* Bouquet intro, repeatable letter, music and lightweight motion */
+  [hidden] { display: none !important; }
+  body { min-height: 100vh; }
+  .stage { max-width: 620px; }
+  .bouquet-screen {
+    min-height: min(780px, 90vh);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; animation: screen-in .6s ease both;
+  }
+  .bouquet-screen.leaving { animation: screen-out .46s ease both; pointer-events: none; }
+  .eyebrow { font-size: 11px; letter-spacing: .19em; text-transform: uppercase; color: #a1747e; }
+  .bouquet-title { margin: 12px 0 4px; color: #7a4b57; font: 500 clamp(32px, 6vw, 49px)/1.1 'Cormorant Garamond', serif; }
+  .bouquet-title span { color: #cb768d; }
+  .bouquet-subtitle { margin: 10px 0 0; color: #997d79; font: 16px 'Cormorant Garamond', serif; }
+  .bouquet-trigger { border: 0; background: transparent; cursor: pointer; padding: 0 12px 12px; width: min(100%, 390px); color: #986675; display: grid; justify-items: center; }
+  .bouquet-art { display: block; width: min(100%, 340px); height: auto; transform-origin: 50% 85%; animation: gentle-sway 4s ease-in-out infinite; filter: drop-shadow(0 16px 16px rgba(116,67,79,.12)); transition: filter .2s; }
+  .bouquet-trigger:hover .bouquet-art { filter: drop-shadow(0 22px 18px rgba(116,67,79,.2)); }
+  .bouquet-trigger:focus-visible, #envelope-stage:focus-visible, .card:focus-visible, button:focus-visible { outline: 3px solid #c7828f; outline-offset: 6px; }
+  .bouquet-cta { display: block; margin-top: -7px; font-size: 13px; letter-spacing: .04em; }
+  #envelope-stage { min-height: 76vh; }
+  #envelope-stage.stage-in { animation: screen-in .65s ease both; }
+  #envelope-stage.opened { animation: none; pointer-events: none; }
+  #envelope-stage.opened .envelope-flap { transform: rotateX(180deg); }
+  #letter-stage { display: none; opacity: 0; transform: translateY(18px) scale(.97); transition: opacity .45s ease, transform .45s ease; }
+  #letter-stage.visible { display: block; opacity: 1; transform: translateY(0) scale(1); }
+  #letter-stage.folding { display: block; opacity: 0; transform: translateY(18px) scale(.94); pointer-events: none; }
+  .letter-topline { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 0 4px 16px; color: #9b737e; font-size: 12px; letter-spacing: .1em; }
+  .close-letter, .skip-type { border: 1px solid #e2c8cb; background: #fffaf7; padding: 8px 13px; border-radius: 30px; color: #946475; cursor: pointer; font: 12px 'Jost', sans-serif; }
+  .close-letter:hover, .skip-type:hover { background: #faeded; }
+  .card { cursor: pointer; transition: box-shadow .2s ease; }
+  .card:hover { box-shadow: 0 34px 64px -30px rgba(111,49,67,.3); }
+  .card button { cursor: pointer; }
+  .letter-hint { text-align: center; color: #a18483; font-size: 12px; margin: 20px 0 0; }
+  .skip-type { margin: 0 0 12px; display: inline-flex; }
+  #letter-body { min-height: 50px; }
+  .music-dock { position: fixed; top: 16px; right: 16px; z-index: 40; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .music-toggle { border: 1px solid #e2c8cb; border-radius: 999px; padding: 10px 17px; background: rgba(255,253,249,.95); box-shadow: 0 8px 25px rgba(86,48,55,.1); color: #875569; font: 13px 'Jost', sans-serif; cursor: pointer; }
+  .music-toggle:hover { background: #fff; }
+  .music-panel { width: min(310px, calc(100vw - 32px)); border: 1px solid #ead8d7; border-radius: 14px; padding: 12px; background: #fffaf6; box-shadow: 0 20px 45px rgba(70,44,49,.19); }
+  .music-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 9px; color: #805365; font-size: 13px; font-weight: 500; }
+  .music-close { background: none; border: 0; color: #805365; font-size: 24px; cursor: pointer; line-height: 1; padding: 1px 5px; }
+  .music-player { width: 100%; min-height: 205px; background: #eedfe0; border-radius: 6px; overflow: hidden; display: grid; place-items: center; font-size: 12px; color: #7f6268; text-align: center; }
+  .music-player iframe { width: 100%; height: 205px; border: 0; }
+  .music-panel p { font-size: 11px; line-height: 1.4; color: #8e7477; margin: 9px 0 4px; }
+  .music-panel a { color: #94576c; font-size: 12px; }
+  .hearts-layer { position: fixed; inset: 0; z-index: 35; pointer-events: none; overflow: hidden; }
+  .burst-heart { position: fixed; left: 0; top: 0; will-change: transform,opacity; font-family: 'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif; animation: heart-burst 2s cubic-bezier(.17,.67,.39,1) forwards; }
+  @keyframes heart-burst { 0% { transform: translate(-50%,-50%) scale(.25); opacity: 0; } 14% { opacity: 1; } 100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--spin)) scale(1.2); opacity: 0; } }
+  @keyframes gentle-sway { 0%,100% { transform: rotate(-2.2deg) translateY(0); } 50% { transform: rotate(2.2deg) translateY(-9px); } }
+  @keyframes screen-in { from { opacity: 0; transform: translateY(17px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes screen-out { to { opacity: 0; transform: translateY(-16px) scale(.96); } }
+  @media (max-width: 480px) {
+    body { padding: 76px 14px 30px; }
+    .bouquet-screen { min-height: 68vh; }
+    .bouquet-title { max-width: 310px; }
+    .card { padding: 40px 22px 32px; }
+    .music-dock { top: 12px; right: 12px; }
+    .music-panel { max-height: 65vh; overflow: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bouquet-art, .petal, .envelope, .envelope-glow, .bouquet-screen, #envelope-stage.stage-in { animation: none !important; }
+    #letter-stage, .envelope-flap { transition-duration: .01ms !important; }
+    .burst-heart { display: none; }
+  }
+
 </style>
 </head>
 <body>
@@ -368,9 +434,151 @@
 <div class="bg-bloom"></div>
 <div class="petals" id="petals"></div>
 
+<aside class="music-dock" aria-label="Background music">
+  <button id="music-toggle" class="music-toggle" type="button" aria-pressed="false">♫ Play love.</button>
+  <div class="music-panel" id="music-panel" hidden>
+    <div class="music-panel-head"><span>love. · wave to earth</span><button id="hide-player" class="music-close" type="button" aria-label="Hide music player">×</button></div>
+    <div id="music-player" class="music-player"></div>
+    <p>Official music video. If playback is blocked, press play in the player.</p>
+    <a href="https://www.youtube.com/watch?v=Q49pnA4jsp8" target="_blank" rel="noopener noreferrer">Listen on YouTube ↗</a>
+  </div>
+</aside>
+<div class="hearts-layer" id="hearts-layer" aria-hidden="true"></div>
 <div class="stage">
+<section id="bouquet-stage" class="bouquet-screen" aria-label="A bouquet for you">
+  <div class="eyebrow">a little something, just for you</div>
+  <h1 class="bouquet-title">Flowers first, then a letter. <span aria-hidden="true">♡</span></h1>
+  <p class="bouquet-subtitle">These are for you, Kiara.</p>
+  <button id="bouquet-btn" class="bouquet-trigger" type="button" aria-label="Tap the bouquet to continue to the letter">
+    <svg class="bouquet-art" viewBox="0 0 320 390" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A bouquet of pink and deep red roses tied with a satin ribbon">
+ <defs>
+  <linearGradient id="wrap-paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff6ec"/><stop offset=".55" stop-color="#eed5d0"/><stop offset="1" stop-color="#d8a6af"/></linearGradient>
+  <linearGradient id="inner-paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fce9e6"/><stop offset="1" stop-color="#e8b9c1"/></linearGradient>
+  <linearGradient id="satin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eea6b7"/><stop offset=".6" stop-color="#bd657f"/><stop offset="1" stop-color="#9c4b65"/></linearGradient>
+  <filter id="rose-shadow" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#743d4d" flood-opacity=".2"/></filter>
+ </defs>
+ <ellipse cx="160" cy="364" rx="95" ry="12" fill="#986574" opacity=".12"/>
+ <g fill="none" stroke="#688a66" stroke-width="4.5" stroke-linecap="round">
+  <path d="M153 325 Q112 210 66 105"/><path d="M153 325 Q130 190 115 76"/>
+  <path d="M153 325 Q158 190 166 66"/><path d="M153 325 Q190 186 218 91"/>
+  <path d="M153 325 Q217 201 247 135"/><path d="M153 325 Q121 220 89 158"/>
+  <path d="M153 325 Q150 195 155 142"/><path d="M153 325 Q178 222 208 156"/>
+ </g>
+ <g fill="#719774" stroke="#4d755d" stroke-width="1.2">
+  <ellipse cx="87" cy="181" rx="15" ry="32" transform="rotate(-48 87 181)"/>
+  <ellipse cx="129" cy="192" rx="15" ry="32" transform="rotate(40 129 192)"/>
+  <ellipse cx="207" cy="205" rx="16" ry="35" transform="rotate(47 207 205)"/>
+  <ellipse cx="241" cy="171" rx="13" ry="30" transform="rotate(-32 241 171)"/>
+  <ellipse cx="70" cy="133" rx="11" ry="23" transform="rotate(-42 70 133)"/>
+  <ellipse cx="253" cy="111" rx="12" ry="23" transform="rotate(28 253 111)"/>
+ </g>
+ <g fill="#fff7e9" opacity=".95">
+  <g transform="translate(43 91)"><circle r="4"/><circle cx="8" cy="-8" r="3"/><circle cx="-7" cy="-10" r="3"/><circle cx="6" cy="9" r="3"/></g><g transform="translate(269 91)"><circle r="4"/><circle cx="8" cy="-8" r="3"/><circle cx="-7" cy="-10" r="3"/><circle cx="6" cy="9" r="3"/></g><g transform="translate(52 155)"><circle r="4"/><circle cx="8" cy="-8" r="3"/><circle cx="-7" cy="-10" r="3"/><circle cx="6" cy="9" r="3"/></g><g transform="translate(277 179)"><circle r="4"/><circle cx="8" cy="-8" r="3"/><circle cx="-7" cy="-10" r="3"/><circle cx="6" cy="9" r="3"/></g><g transform="translate(125 30)"><circle r="4"/><circle cx="8" cy="-8" r="3"/><circle cx="-7" cy="-10" r="3"/><circle cx="6" cy="9" r="3"/></g><g transform="translate(208 41)"><circle r="4"/><circle cx="8" cy="-8" r="3"/><circle cx="-7" cy="-10" r="3"/><circle cx="6" cy="9" r="3"/></g><g transform="translate(178 198)"><circle r="4"/><circle cx="8" cy="-8" r="3"/><circle cx="-7" cy="-10" r="3"/><circle cx="6" cy="9" r="3"/></g>
+ </g>
+ <g filter="url(#rose-shadow)"><g transform="translate(66 105) scale(0.82)">
+  <g fill="#843950" stroke="#843950" stroke-width="1.3">
+    <ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(45)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(90)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(135)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(225)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(270)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(315)"/>
+  </g>
+  <g fill="#B55A72">
+    <ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(14)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(65.42857142857143)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(116.85714285714286)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(168.28571428571428)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(219.71428571428572)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(271.14285714285717)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(322.57142857142856)"/>
+  </g>
+  <circle r="13" fill="#F4A0B2"/>
+  <path d="M-9 5 Q-12-10 0-9 Q11-9 8 2 Q6 10-4 7 Q-9 3-3-2 Q2-5 4 0" fill="none" stroke="#843950" stroke-width="3" stroke-linecap="round"/>
+  <path d="M-5-17 Q0-22 6-16" fill="none" stroke="#FFF8F2" stroke-width="2" opacity=".75"/>
+  </g>
+<g transform="translate(115 76) scale(1.02)">
+  <g fill="#A73B55" stroke="#A73B55" stroke-width="1.3">
+    <ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(45)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(90)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(135)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(225)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(270)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(315)"/>
+  </g>
+  <g fill="#D35E77">
+    <ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(14)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(65.42857142857143)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(116.85714285714286)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(168.28571428571428)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(219.71428571428572)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(271.14285714285717)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(322.57142857142856)"/>
+  </g>
+  <circle r="13" fill="#F4A1AE"/>
+  <path d="M-9 5 Q-12-10 0-9 Q11-9 8 2 Q6 10-4 7 Q-9 3-3-2 Q2-5 4 0" fill="none" stroke="#A73B55" stroke-width="3" stroke-linecap="round"/>
+  <path d="M-5-17 Q0-22 6-16" fill="none" stroke="#FFF8F2" stroke-width="2" opacity=".75"/>
+  </g>
+<g transform="translate(166 66) scale(1.05)">
+  <g fill="#C66A8B" stroke="#C66A8B" stroke-width="1.3">
+    <ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(45)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(90)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(135)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(225)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(270)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(315)"/>
+  </g>
+  <g fill="#ED9CB2">
+    <ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(14)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(65.42857142857143)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(116.85714285714286)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(168.28571428571428)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(219.71428571428572)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(271.14285714285717)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(322.57142857142856)"/>
+  </g>
+  <circle r="13" fill="#FFE1E6"/>
+  <path d="M-9 5 Q-12-10 0-9 Q11-9 8 2 Q6 10-4 7 Q-9 3-3-2 Q2-5 4 0" fill="none" stroke="#C66A8B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M-5-17 Q0-22 6-16" fill="none" stroke="#FFF8F2" stroke-width="2" opacity=".75"/>
+  </g>
+<g transform="translate(218 91) scale(0.94)">
+  <g fill="#A73B55" stroke="#A73B55" stroke-width="1.3">
+    <ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(45)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(90)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(135)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(225)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(270)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(315)"/>
+  </g>
+  <g fill="#D35E77">
+    <ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(14)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(65.42857142857143)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(116.85714285714286)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(168.28571428571428)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(219.71428571428572)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(271.14285714285717)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(322.57142857142856)"/>
+  </g>
+  <circle r="13" fill="#F4A1AE"/>
+  <path d="M-9 5 Q-12-10 0-9 Q11-9 8 2 Q6 10-4 7 Q-9 3-3-2 Q2-5 4 0" fill="none" stroke="#A73B55" stroke-width="3" stroke-linecap="round"/>
+  <path d="M-5-17 Q0-22 6-16" fill="none" stroke="#FFF8F2" stroke-width="2" opacity=".75"/>
+  </g>
+<g transform="translate(247 135) scale(0.79)">
+  <g fill="#D8818B" stroke="#D8818B" stroke-width="1.3">
+    <ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(45)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(90)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(135)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(225)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(270)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(315)"/>
+  </g>
+  <g fill="#F4B9BF">
+    <ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(14)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(65.42857142857143)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(116.85714285714286)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(168.28571428571428)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(219.71428571428572)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(271.14285714285717)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(322.57142857142856)"/>
+  </g>
+  <circle r="13" fill="#FFF0EA"/>
+  <path d="M-9 5 Q-12-10 0-9 Q11-9 8 2 Q6 10-4 7 Q-9 3-3-2 Q2-5 4 0" fill="none" stroke="#D8818B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M-5-17 Q0-22 6-16" fill="none" stroke="#FFF8F2" stroke-width="2" opacity=".75"/>
+  </g>
+<g transform="translate(89 158) scale(0.82)">
+  <g fill="#D8818B" stroke="#D8818B" stroke-width="1.3">
+    <ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(45)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(90)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(135)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(225)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(270)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(315)"/>
+  </g>
+  <g fill="#F4B9BF">
+    <ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(14)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(65.42857142857143)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(116.85714285714286)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(168.28571428571428)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(219.71428571428572)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(271.14285714285717)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(322.57142857142856)"/>
+  </g>
+  <circle r="13" fill="#FFF0EA"/>
+  <path d="M-9 5 Q-12-10 0-9 Q11-9 8 2 Q6 10-4 7 Q-9 3-3-2 Q2-5 4 0" fill="none" stroke="#D8818B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M-5-17 Q0-22 6-16" fill="none" stroke="#FFF8F2" stroke-width="2" opacity=".75"/>
+  </g>
+<g transform="translate(155 142) scale(1.04)">
+  <g fill="#843950" stroke="#843950" stroke-width="1.3">
+    <ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(45)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(90)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(135)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(225)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(270)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(315)"/>
+  </g>
+  <g fill="#B55A72">
+    <ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(14)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(65.42857142857143)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(116.85714285714286)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(168.28571428571428)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(219.71428571428572)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(271.14285714285717)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(322.57142857142856)"/>
+  </g>
+  <circle r="13" fill="#F4A0B2"/>
+  <path d="M-9 5 Q-12-10 0-9 Q11-9 8 2 Q6 10-4 7 Q-9 3-3-2 Q2-5 4 0" fill="none" stroke="#843950" stroke-width="3" stroke-linecap="round"/>
+  <path d="M-5-17 Q0-22 6-16" fill="none" stroke="#FFF8F2" stroke-width="2" opacity=".75"/>
+  </g>
+<g transform="translate(208 156) scale(0.88)">
+  <g fill="#C66A8B" stroke="#C66A8B" stroke-width="1.3">
+    <ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(0)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(45)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(90)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(135)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(225)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(270)"/><ellipse cx="0" cy="-22" rx="16" ry="24" transform="rotate(315)"/>
+  </g>
+  <g fill="#ED9CB2">
+    <ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(14)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(65.42857142857143)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(116.85714285714286)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(168.28571428571428)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(219.71428571428572)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(271.14285714285717)"/><ellipse cx="0" cy="-14" rx="12" ry="17" transform="rotate(322.57142857142856)"/>
+  </g>
+  <circle r="13" fill="#FFE1E6"/>
+  <path d="M-9 5 Q-12-10 0-9 Q11-9 8 2 Q6 10-4 7 Q-9 3-3-2 Q2-5 4 0" fill="none" stroke="#C66A8B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M-5-17 Q0-22 6-16" fill="none" stroke="#FFF8F2" stroke-width="2" opacity=".75"/>
+  </g></g>
+ <path d="M48 192 Q90 218 150 215 Q230 218 269 191 L191 356 Q169 374 155 363 Z" fill="url(#inner-paper)" stroke="#e5bfc1" stroke-width="2"/>
+ <path d="M43 196 Q98 239 156 229 L157 365 Q113 315 43 196Z" fill="url(#wrap-paper)" stroke="#e8c6c5" stroke-width="2"/>
+ <path d="M269 191 Q215 247 157 229 L157 365 Q203 311 269 191Z" fill="#efd1ce" stroke="#e6bec1" stroke-width="2"/>
+ <path d="M155 233 L155 362" stroke="#fff8f0" stroke-width="3" opacity=".65"/>
+ <path d="M143 308 Q118 286 112 309 Q108 328 146 325 L158 319Z" fill="url(#satin)"/>
+ <path d="M171 308 Q198 286 206 309 Q207 328 168 325 L157 319Z" fill="url(#satin)"/>
+ <path d="M153 324 L134 353 L154 342 L157 326Z" fill="#be6981"/>
+ <path d="M166 323 L184 354 L164 342 L159 327Z" fill="#d98ba0"/>
+ <ellipse cx="159" cy="318" rx="11" ry="9" fill="#a85872" stroke="#f6c6c9" stroke-width="2"/>
+ <path d="M108 241 L149 262 M215 241 L170 264" stroke="#fff8ef" stroke-width="2" opacity=".5"/>
+ </svg>
+    <span class="bouquet-cta">Tap the bouquet to continue <span aria-hidden="true">↗</span></span>
+  </button>
+ </section>
 
-  <div id="envelope-stage">
+  <div id="envelope-stage" role="button" tabindex="0" aria-label="Open the envelope" aria-expanded="false" hidden>
     <div class="envelope-wrap">
       <div class="envelope-glow"></div>
       <div class="envelope">
@@ -382,47 +590,11 @@
       </div>
     </div>
     <div class="envelope-prompt">tap to open</div>
-
-    <svg class="bouquet" viewBox="0 0 140 170" xmlns="http://www.w3.org/2000/svg">
-      <path d="M70 150 C 60 120, 40 100, 28 70" stroke="#8A9A7E" stroke-width="2.5" fill="none"/>
-      <path d="M70 150 C 65 115, 55 95, 50 65" stroke="#8A9A7E" stroke-width="2.5" fill="none"/>
-      <path d="M70 150 C 70 110, 70 90, 70 58" stroke="#8A9A7E" stroke-width="2.5" fill="none"/>
-      <path d="M70 150 C 75 115, 85 95, 90 65" stroke="#8A9A7E" stroke-width="2.5" fill="none"/>
-      <path d="M70 150 C 80 120, 100 100, 112 70" stroke="#8A9A7E" stroke-width="2.5" fill="none"/>
-
-      <path d="M52 134 L70 116 L88 134 Z" fill="#C7828F"/>
-      <circle cx="70" cy="126" r="5.5" fill="#8A6F63"/>
-
-      <g transform="translate(28,70)">
-        <circle cx="0" cy="-7" r="6" fill="#C7828F"/><circle cx="0" cy="7" r="6" fill="#C7828F"/>
-        <circle cx="-7" cy="0" r="6" fill="#C7828F"/><circle cx="7" cy="0" r="6" fill="#C7828F"/>
-        <circle cx="0" cy="0" r="4" fill="#8A6F63"/>
-      </g>
-      <g transform="translate(50,64)">
-        <circle cx="0" cy="-6" r="5.5" fill="#E3B6BC"/><circle cx="0" cy="6" r="5.5" fill="#E3B6BC"/>
-        <circle cx="-6" cy="0" r="5.5" fill="#E3B6BC"/><circle cx="6" cy="0" r="5.5" fill="#E3B6BC"/>
-        <circle cx="0" cy="0" r="3.5" fill="#8A6F63"/>
-      </g>
-      <g transform="translate(70,54)">
-        <circle cx="0" cy="-8" r="7" fill="#C7828F"/><circle cx="0" cy="8" r="7" fill="#C7828F"/>
-        <circle cx="-8" cy="0" r="7" fill="#C7828F"/><circle cx="8" cy="0" r="7" fill="#C7828F"/>
-        <circle cx="0" cy="0" r="4.5" fill="#8A6F63"/>
-      </g>
-      <g transform="translate(90,64)">
-        <circle cx="0" cy="-6" r="5.5" fill="#E3B6BC"/><circle cx="0" cy="6" r="5.5" fill="#E3B6BC"/>
-        <circle cx="-6" cy="0" r="5.5" fill="#E3B6BC"/><circle cx="6" cy="0" r="5.5" fill="#E3B6BC"/>
-        <circle cx="0" cy="0" r="3.5" fill="#8A6F63"/>
-      </g>
-      <g transform="translate(112,70)">
-        <circle cx="0" cy="-7" r="6" fill="#C7828F"/><circle cx="0" cy="7" r="6" fill="#C7828F"/>
-        <circle cx="-7" cy="0" r="6" fill="#C7828F"/><circle cx="7" cy="0" r="6" fill="#C7828F"/>
-        <circle cx="0" cy="0" r="4" fill="#8A6F63"/>
-      </g>
-    </svg>
   </div>
 
-  <div id="letter-stage">
-    <div class="card">
+  <div id="letter-stage" hidden>
+    <div class="letter-topline"><span>a note for you</span><button type="button" id="close-letter" class="close-letter">↶ Close letter</button></div>
+    <div class="card" id="letter-card">
 
       <div class="corner tl">
         <svg viewBox="0 0 100 100" fill="none">
@@ -456,6 +628,7 @@
         <p>Have a good day. Alam kong pagod ka after this exam, kaya sana magpahinga ka ng maayos. Ingat lagi.</p>
       </div>
 
+      <button id="skip-type" type="button" class="skip-type" hidden>Show full letter</button>
       <div class="signature" id="signature"></div>
 
       <div class="flower-row">
@@ -472,162 +645,280 @@
       </div>
 
     </div>
+    <p class="letter-hint">Tap the paper to fold it. You can open it again.</p>
   </div>
 
 </div>
 
 <script>
-  const herName = getComputedStyle(document.documentElement).getPropertyValue('--her-name').trim().replace(/"/g, '');
-  const senderName = getComputedStyle(document.documentElement).getPropertyValue('--sender-name').trim().replace(/"/g, '');
-
-
+  'use strict';
+  const el = id => document.getElementById(id);
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const readCssName = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim().replace(/^["']|["']$/g, '');
+  const herName = readCssName('--her-name') || 'you';
+  const senderName = readCssName('--sender-name') || 'A quiet admirer';
   const secretMessage = "Libre kita McDo once na malaman mo kung sino ako.";
-
- 
   const ntfyTopic = "CHANGE-THIS-TO-SOMETHING-ONLY-YOU-KNOW";
+  const originalParagraphs = [...document.querySelectorAll('#letter-body p')].map(p => p.textContent.trim());
+  const textNodes = [...document.querySelectorAll('#letter-body p')];
 
-  document.getElementById('greeting').textContent = herName ? `To ${herName}` : 'To you';
-  document.getElementById('signature').textContent = senderName || 'A quiet admirer';
-  document.getElementById('secret-text').textContent = secretMessage;
+  el('greeting').textContent = 'To ' + herName;
+  el('signature').textContent = senderName;
+  el('secret-text').textContent = secretMessage;
 
-  const envelopeStage = document.getElementById('envelope-stage');
-  const letterStage = document.getElementById('letter-stage');
+  let state = 'bouquet';
+  let typingFrame = 0;
+  let drawingFrame = 0;
+  let notified = false;
+  let soundContext;
+  const setLater = (fn, delay) => window.setTimeout(fn, reducedMotion ? 0 : delay);
 
-  envelopeStage.addEventListener('click', () => {
-    envelopeStage.classList.add('opened');
-    setTimeout(() => {
-      letterStage.classList.add('visible');
-      drawHeart();
-    }, 500);
+  el('bouquet-btn').addEventListener('click', () => {
+    if (state !== 'bouquet') return;
+    state = 'transition';
+    el('bouquet-stage').classList.add('leaving');
+    setLater(() => {
+      el('bouquet-stage').hidden = true;
+      el('envelope-stage').hidden = false;
+      el('envelope-stage').classList.add('stage-in');
+      state = 'envelope';
+      el('envelope-stage').focus({preventScroll:true});
+    }, 450);
+  });
 
-    fetch(`https://ntfy.sh/${ntfyTopic}`, {
-      method: 'POST',
-      body: 'She opened the envelope 💌'
+  function openingSound() {
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      soundContext ||= new AudioContext();
+      if (soundContext.state === 'suspended') soundContext.resume().catch(() => {});
+      const now = soundContext.currentTime;
+      [587.33, 783.99, 987.77].forEach((freq, i) => {
+        const osc = soundContext.createOscillator();
+        const gain = soundContext.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(.0001, now + i * .075);
+        gain.gain.exponentialRampToValueAtTime(.06, now + .015 + i * .075);
+        gain.gain.exponentialRampToValueAtTime(.0001, now + .48 + i * .075);
+        osc.connect(gain); gain.connect(soundContext.destination);
+        osc.start(now + i * .075); osc.stop(now + .52 + i * .075);
+      });
+    } catch { /* sound is optional */ }
+  }
+
+  function heartBurst() {
+    if (reducedMotion) return;
+    const rect = el('envelope-stage').getBoundingClientRect();
+    const layer = el('hearts-layer');
+    const x = rect.left + rect.width/2, y = rect.top + rect.height/2 - 35;
+    for (let i=0; i<24; i++) {
+      const heart = document.createElement('span');
+      const angle = Math.PI * 2 * i / 24;
+      const radius = 85 + Math.random()*190;
+      heart.className = 'burst-heart';
+      heart.textContent = i%5 === 0 ? '💖' : '❤️';
+      heart.style.left = x+'px';
+      heart.style.top = y+'px';
+      heart.style.fontSize = (18+Math.random()*22)+'px';
+      heart.style.setProperty('--dx', Math.cos(angle)*radius+'px');
+      heart.style.setProperty('--dy', (Math.sin(angle)*radius-90)+'px');
+      heart.style.setProperty('--spin', (Math.random()*100-50)+'deg');
+      layer.appendChild(heart);
+      heart.addEventListener('animationend', () => heart.remove(), {once:true});
+    }
+  }
+
+  function notifyOnce() {
+    if (notified || ntfyTopic === 'CHANGE-THIS-TO-SOMETHING-ONLY-YOU-KNOW' || !ntfyTopic.trim()) return;
+    notified = true;
+    fetch('https://ntfy.sh/'+encodeURIComponent(ntfyTopic), {
+      method:'POST', body:'She opened the envelope 💌'
     }).catch(() => {});
-  });
+  }
 
-  /* ---------- Secret reveal ---------- */
-  const secretBtn = document.getElementById('secret-btn');
-  const secretMessageEl = document.getElementById('secret-message');
+  function showCompleteLetter() {
+    cancelAnimationFrame(typingFrame);
+    textNodes.forEach((node,i)=>{node.textContent = originalParagraphs[i];});
+    el('skip-type').hidden = true;
+  }
 
-  secretBtn.addEventListener('click', () => {
-    secretMessageEl.classList.add('shown');
-    secretBtn.classList.add('hidden');
-  });
+  function typeLetter() {
+    cancelAnimationFrame(typingFrame);
+    const total = originalParagraphs.reduce((count,txt)=>count+txt.length,0);
+    textNodes.forEach(node => node.textContent='');
+    if (reducedMotion) { showCompleteLetter(); return; }
+    el('skip-type').hidden = false;
+    let start, lastCount = -1;
+    function frame(now) {
+      if (state !== 'letter') return;
+      start ??= now;
+      const count = Math.min(total, Math.floor((now-start)*.095));
+      if (count !== lastCount) {
+        let left = count;
+        textNodes.forEach((node,i)=>{
+          const txt = originalParagraphs[i];
+          node.textContent = txt.slice(0,Math.max(0,left));
+          left -= txt.length;
+        });
+        lastCount = count;
+      }
+      if (count < total) typingFrame = requestAnimationFrame(frame);
+      else el('skip-type').hidden = true;
+    }
+    typingFrame = requestAnimationFrame(frame);
+  }
 
-  /* ---------- Heart made of "I love you" ---------- */
   function drawHeart() {
-    const canvas = document.getElementById('heart-canvas');
+    cancelAnimationFrame(drawingFrame);
+    const canvas = el('heart-canvas');
     const ctx = canvas.getContext('2d');
-    const w = canvas.width;
-    const h = canvas.height;
-    const cx = w / 2;
-    const cy = h / 2 + 14;
-    const unit = 4.6;
-    const colors = ['#C7828F', '#D9A5AC', '#B96F7D'];
-    const pointsPerLayer = 70;
-
-    const points = [];
-    for (let s = 0; s < 6; s++) {
-      const scaleFactor = (11 + s) / 16;
-      for (let i = 0; i < pointsPerLayer; i++) {
-        const angle = (i * Math.PI * 2) / pointsPerLayer;
-        const x = 16 * Math.pow(Math.sin(angle), 3) * scaleFactor;
-        const y =
-          (13 * Math.cos(angle) -
-            5 * Math.cos(2 * angle) -
-            2 * Math.cos(3 * angle) -
-            Math.cos(4 * angle)) *
-          scaleFactor;
-        points.push({ x: cx + x * unit, y: cy - y * unit });
-      }
-    }
-
-    ctx.clearRect(0, 0, w, h);
+    if (!ctx) return;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     canvas.classList.add('visible');
-    ctx.font = "7px 'Jost', sans-serif";
+    ctx.font = "7px Jost, sans-serif";
     ctx.textAlign = 'center';
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-
-    function drawPenTip(x, y) {
-      ctx.save();
-      ctx.shadowColor = '#C7828F';
-      ctx.shadowBlur = 9;
-      ctx.fillStyle = '#FFF6F1';
-      ctx.beginPath();
-      ctx.arc(x, y, 2.6, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-
-    let i = 0;
-    const delay = 13; // ms between points; raise this to slow the drawing down further
-
-    function step() {
-      if (i >= points.length) return;
-      const p = points[i];
-      const isLayerStart = i % pointsPerLayer === 0;
-
-      ctx.strokeStyle = 'rgba(199,130,143,0.35)';
-      ctx.lineWidth = 1;
-      if (isLayerStart) {
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-      } else {
-        ctx.lineTo(p.x, p.y);
-        ctx.stroke();
+    const points = [];
+    for (let s=0;s<6;s++) {
+      const scale = (11+s)/16;
+      for(let i=0;i<70;i++){
+        const a = 2*Math.PI*i/70;
+        const px = 16*Math.sin(a)**3 * scale;
+        const py = (13*Math.cos(a)-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a))*scale;
+        points.push([110+px*4.6,109-py*4.6]);
       }
-
-      if (i % 2 === 0) {
-        ctx.save();
-        ctx.fillStyle = colors[i % colors.length];
-        ctx.translate(p.x, p.y);
-        ctx.rotate((Math.random() - 0.5) * 0.5);
-        ctx.fillText('I love you', 0, 0);
-        ctx.restore();
-      }
-
-      drawPenTip(p.x, p.y);
-
-      i++;
-      setTimeout(step, delay);
     }
-    step();
+    let i=0;
+    function frame(){
+      if (state !== 'letter') return;
+      for(let j=0;j<10 && i<points.length;j++,i++){
+        if(i%2!==0) continue;
+        const [x,y]=points[i];
+        ctx.fillStyle=['#C7828F','#D9A5AC','#B96F7D'][i%3];
+        ctx.fillText('I love you',x,y);
+      }
+      if(i<points.length) drawingFrame=requestAnimationFrame(frame);
+    }
+    if (reducedMotion) {while(i<points.length){for(let j=0;j<10&&i<points.length;j++,i++){if(i%2===0){ctx.fillStyle='#C7828F';ctx.fillText('I love you',points[i][0],points[i][1]);}}}}
+    else drawingFrame=requestAnimationFrame(frame);
   }
 
-  /* ---------- Falling petals ---------- */
-  const petalColors = ['#C7828F', '#E3B6BC', '#8A9A7E', '#D9A5AC'];
-  const petalsContainer = document.getElementById('petals');
-
-  function spawnPetal() {
-    const petal = document.createElement('div');
-    petal.className = 'petal';
-
-    const size = 10 + Math.random() * 10;
-    const left = Math.random() * 100;
-    const duration = 7 + Math.random() * 6;
-    const drift = Math.random() * 160 - 80;
-    const spin = Math.random() * 300 - 150;
-    const color = petalColors[Math.floor(Math.random() * petalColors.length)];
-
-    petal.style.left = left + 'vw';
-    petal.style.width = size + 'px';
-    petal.style.height = size + 'px';
-    petal.style.setProperty('--drift', drift + 'px');
-    petal.style.setProperty('--spin', spin + 'deg');
-    petal.style.animationDuration = duration + 's';
-
-    petal.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 2C7 2 4 6 4 10c0 5 4 9 8 12 4-3 8-7 8-12 0-4-3-8-8-8z" fill="${color}"/></svg>`;
-
-    petal.addEventListener('animationend', () => petal.remove());
-    petalsContainer.appendChild(petal);
+  function openLetter() {
+    if (state !== 'envelope') return;
+    state = 'opening';
+    el('envelope-stage').classList.add('opened');
+    el('envelope-stage').setAttribute('aria-expanded','true');
+    openingSound();
+    heartBurst();
+    notifyOnce();
+    setLater(() => {
+      el('envelope-stage').hidden = true;
+      el('letter-stage').hidden = false;
+      el('letter-stage').classList.add('visible');
+      state = 'letter';
+      drawHeart();
+      typeLetter();
+      el('close-letter').focus({preventScroll:true});
+    }, 700);
   }
 
-  for (let i = 0; i < 6; i++) {
-    setTimeout(spawnPetal, i * 400);
+  function closeLetter() {
+    if (state !== 'letter') return;
+    state = 'closing';
+    cancelAnimationFrame(typingFrame);
+    cancelAnimationFrame(drawingFrame);
+    el('letter-stage').classList.remove('visible');
+    el('letter-stage').classList.add('folding');
+    setLater(()=>{
+      el('letter-stage').hidden = true;
+      el('letter-stage').classList.remove('folding');
+      el('envelope-stage').hidden = false;
+      el('envelope-stage').classList.remove('opened');
+      el('envelope-stage').setAttribute('aria-expanded','false');
+      el('secret-message').classList.remove('shown');
+      el('secret-btn').classList.remove('hidden');
+      el('heart-canvas').classList.remove('visible');
+      state = 'envelope';
+      el('envelope-stage').focus({preventScroll:true});
+    }, 360);
   }
-  setInterval(spawnPetal, 650);
+
+  el('envelope-stage').addEventListener('click', openLetter);
+  el('envelope-stage').addEventListener('keydown', ev => {
+    if (ev.key==='Enter'||ev.key===' ') { ev.preventDefault(); openLetter(); }
+  });
+  el('close-letter').addEventListener('click', closeLetter);
+  el('letter-card').addEventListener('click', ev => {
+    if (!ev.target.closest('button, a')) closeLetter();
+  });
+  document.addEventListener('keydown', ev => {if (ev.key === 'Escape') closeLetter();});
+  el('skip-type').addEventListener('click', showCompleteLetter);
+  el('secret-btn').addEventListener('click', () => {
+    el('secret-message').classList.add('shown');
+    el('secret-btn').classList.add('hidden');
+  });
+
+  /* Decorative petals are capped and paused in hidden tabs. */
+  const petalColors=['#C7828F','#E3B6BC','#8A9A7E','#D9A5AC'];
+  function spawnPetal(){
+    const layer=el('petals');
+    if (reducedMotion || document.hidden || layer.childElementCount>=12) return;
+    const petal=document.createElement('div');
+    const color=petalColors[Math.floor(Math.random()*petalColors.length)];
+    petal.className='petal';
+    petal.style.cssText='left:'+Math.random()*100+'vw;width:14px;height:14px;animation-duration:'+(7+Math.random()*5)+'s;';
+    petal.style.setProperty('--drift',(Math.random()*160-80)+'px');
+    petal.style.setProperty('--spin',(Math.random()*320-160)+'deg');
+    petal.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 2C7 2 4 6 4 10c0 5 4 9 8 12 4-3 8-7 8-12 0-4-3-8-8-8z" fill="'+color+'"/></svg>';
+    petal.addEventListener('animationend',()=>petal.remove(),{once:true});
+    layer.appendChild(petal);
+  }
+  if (!reducedMotion) {
+    for (let i=0;i<4;i++) setTimeout(spawnPetal,i*320);
+    setInterval(spawnPetal,1200);
+  }
+
+  /* Official YouTube video: no copied audio or API keys. */
+  const musicToggle=el('music-toggle');
+  const musicPanel=el('music-panel');
+  let player, playerReady=false, youtubeLoading=false, playing=false, pendingPlay=false;
+  function setMusicButton(value){
+    playing=value;
+    musicToggle.textContent=value ? '♫ Pause love.' : '♫ Play love.';
+    musicToggle.setAttribute('aria-pressed',String(value));
+  }
+  function loadYoutube(){
+    if (youtubeLoading) return;
+    youtubeLoading=true;
+    window.onYouTubeIframeAPIReady=()=>{
+      player=new YT.Player('music-player',{
+        width:'100%',height:'205',videoId:'Q49pnA4jsp8',
+        playerVars:{controls:1,playsinline:1,rel:0},
+        events:{
+          onReady:ev=>{playerReady=true;if(pendingPlay){pendingPlay=false;ev.target.playVideo();}},
+          onStateChange:ev=>setMusicButton(ev.data===YT.PlayerState.PLAYING)
+        }
+      });
+    };
+    const script=document.createElement('script');
+    script.src='https://www.youtube.com/iframe_api';
+    script.async=true;
+    script.onerror=()=>{el('music-player').textContent='Video unavailable. Use the YouTube link below.';};
+    document.head.appendChild(script);
+  }
+  musicToggle.addEventListener('click',()=>{
+    musicPanel.hidden=false;
+    if (!youtubeLoading) loadYoutube();
+    if (!playerReady) {pendingPlay=true;return;}
+    if (playing) player.pauseVideo(); else player.playVideo();
+  });
+  el('hide-player').addEventListener('click',()=>{
+    if (playerReady) player.pauseVideo();
+    pendingPlay=false;
+    musicPanel.hidden=true;
+    setMusicButton(false);
+  });
+
 </script>
 
 </body>
