@@ -184,37 +184,50 @@ syncMusicButton();
 syncMusicProgress();
 
 function playOpenSound() {
+  // Envelope flap and paper sliding, using synthesized rustle instead of a chime.
   try {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return;
+    soundContext ||= new AudioContextClass();
+    if (soundContext.state === 'suspended') soundContext.resume().catch(() => {});
+    const ctx = soundContext, now = ctx.currentTime;
 
-    if (!soundContext) soundContext = new AudioContextClass();
-    if (soundContext.state === 'suspended') soundContext.resume();
-
-    const now = soundContext.currentTime;
-    const notes = [587.33, 783.99, 987.77];
-
-    notes.forEach((freq, index) => {
-      const osc = soundContext.createOscillator();
-      const gain = soundContext.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-
-      gain.gain.setValueAtTime(0.0001, now + index * 0.075);
-      gain.gain.exponentialRampToValueAtTime(0.06, now + 0.015 + index * 0.075);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45 + index * 0.075);
-
-      osc.connect(gain);
-      gain.connect(soundContext.destination);
-
-      osc.start(now + index * 0.075);
-      osc.stop(now + 0.5 + index * 0.075);
-    });
-  } catch (err) {
-    /* sound is optional */
+    function paperRustle(delay, duration, volume, frequency) {
+      const frames = Math.ceil(ctx.sampleRate * duration);
+      const buffer = ctx.createBuffer(1, frames, ctx.sampleRate);
+      const samples = buffer.getChannelData(0);
+      let previous = 0;
+      for (let i = 0; i < frames; i++) {
+        previous = previous * 0.35 + (Math.random() * 2 - 1) * 0.65;
+        samples[i] = previous;
+      }
+      const source = ctx.createBufferSource();
+      const filter = ctx.createBiquadFilter();
+      const gain = ctx.createGain();
+      const start = now + delay;
+      source.buffer = buffer;
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(frequency, start);
+      filter.frequency.exponentialRampToValueAtTime(frequency * .8, start + duration);
+      filter.Q.value = .55;
+      gain.gain.setValueAtTime(.0001, start);
+      gain.gain.linearRampToValueAtTime(volume, start + Math.min(.025, duration / 5));
+      gain.gain.exponentialRampToValueAtTime(volume * .5, start + duration * .6);
+      gain.gain.exponentialRampToValueAtTime(.0001, start + duration);
+      source.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      source.start(start);
+      source.stop(start + duration);
+    }
+    paperRustle(0, .12, .16, 1600);       // Opening flap
+    paperRustle(.11, .37, .11, 850);     // Pulling the letter out
+    paperRustle(.43, .21, .07, 2100);   // Light paper flutter
+  } catch {
+    // The letter still opens if sound is unavailable.
   }
 }
+
 
 function notifyOpenOnce() {
   if (notified) return;
@@ -277,67 +290,113 @@ function drawHeart() {
   const ctx = heartCanvas.getContext('2d');
   if (!ctx) return;
 
-  const w = heartCanvas.width;
-  const h = heartCanvas.height;
-  const cx = w / 2;
-  const cy = h / 2 + 14;
-  const unit = 4.6;
-  const colors = ['#C7828F', '#D9A5AC', '#B96F7D'];
-  const pointsPerLayer = 70;
+  const { width, height } = heartCanvas;
+  const cx = width / 2, cy = height / 2 + 3, scale = 4.65;
+  const phrase = 'I love you';
+  const palette = ['#B96F7D', '#C7828F', '#D9A5AC'];
+  const outline = [];
 
-  const points = [];
-  for (let s = 0; s < 6; s++) {
-    const scaleFactor = (11 + s) / 16;
-    for (let i = 0; i < pointsPerLayer; i++) {
-      const angle = (i * Math.PI * 2) / pointsPerLayer;
-      const x = 16 * Math.pow(Math.sin(angle), 3) * scaleFactor;
-      const y =
-        (13 * Math.cos(angle) -
-          5 * Math.cos(2 * angle) -
-          2 * Math.cos(3 * angle) -
-          Math.cos(4 * angle)) * scaleFactor;
+  for (let i = 0; i <= 320; i++) {
+    const t = i * 2 * Math.PI / 320;
+    outline.push({
+      x: cx + 16 * Math.sin(t) ** 3 * scale,
+      y: cy - (13 * Math.cos(t) - 5 * Math.cos(2 * t) -
+        2 * Math.cos(3 * t) - Math.cos(4 * t)) * scale
+    });
+  }
 
-      points.push({ x: cx + x * unit, y: cy - y * unit });
+  function inside(x, y) {
+    let hit = false;
+    for (let i = 0, j = outline.length - 1; i < outline.length; j = i++) {
+      const a = outline[i], b = outline[j];
+      if ((a.y > y) !== (b.y > y) &&
+          x < (b.x - a.x) * (y - a.y) / (b.y - a.y) + a.x) hit = !hit;
+    }
+    return hit;
+  }
+
+  ctx.clearRect(0, 0, width, height);
+  ctx.font = "600 7px 'Jost', sans-serif";
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const wordWidth = ctx.measureText(phrase).width;
+  const step = Math.max(20, wordWidth + 3);
+
+  // Use a staggered word grid, clipped by the real outline of the heart.
+  const fillWords = [];
+  for (let y = 41, row = 0; y < 175; y += 9, row++) {
+    for (let x = 31 + (row % 2) * step / 2; x < width - 25; x += step) {
+      const half = wordWidth / 2 + 1;
+      if ([[x-half,y-4],[x+half,y-4],[x-half,y+4],[x+half,y+4]]
+          .every(([px,py]) => inside(px,py))) fillWords.push({x,y});
     }
   }
 
-  ctx.clearRect(0, 0, w, h);
+  // Also write the phrase around the outline as the "pen" travels.
+  const edgeWords = [];
+  let arc = 0;
+  for (let i = 1; i < outline.length; i++) {
+    const p = outline[i], q = outline[i-1];
+    arc += Math.hypot(p.x-q.x,p.y-q.y);
+    if (arc >= wordWidth * 1.15) {
+      edgeWords.push({index:i,x:p.x,y:p.y});
+      arc = 0;
+    }
+  }
+
   heartCanvas.classList.add('visible');
-  ctx.font = "7px 'Jost', sans-serif";
-  ctx.textAlign = 'center';
+  let drawn = 0, edgeWritten = 0, fillWritten = 0;
+  function trace(to) {
+    if (to <= drawn) return;
+    ctx.save();
+    ctx.strokeStyle = 'rgba(199,130,143,.45)';
+    ctx.lineWidth = 1.35;
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(outline[drawn].x, outline[drawn].y);
+    for (let i = drawn+1; i <= to; i++) ctx.lineTo(outline[i].x,outline[i].y);
+    ctx.stroke();
+    ctx.restore();
+    drawn = to;
+    while (edgeWritten < edgeWords.length && edgeWords[edgeWritten].index <= drawn) {
+      const p = edgeWords[edgeWritten++];
+      ctx.fillStyle = palette[edgeWritten % palette.length];
+      ctx.fillText(phrase,p.x,p.y);
+    }
+  }
+  function write(to) {
+    while (fillWritten < to) {
+      const i = fillWritten++, p = fillWords[i];
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(Math.sin(i * 2.14) * .035);
+      ctx.fillStyle = palette[i % palette.length];
+      ctx.fillText(phrase,0,0);
+      ctx.restore();
+    }
+  }
 
   if (reducedMotion) {
-    points.forEach((p, i) => {
-      if (i % 2 === 0) {
-        ctx.fillStyle = colors[i % colors.length];
-        ctx.fillText('I love you', p.x, p.y);
-      }
-    });
+    trace(outline.length-1);
+    write(fillWords.length);
     return;
   }
-
-  let index = 0;
-  function step() {
+  let start = null;
+  function frame(now) {
     if (appState !== 'letter') return;
-
-    for (let n = 0; n < 10 && index < points.length; n++, index++) {
-      const p = points[index];
-      if (index % 2 === 0) {
-        ctx.save();
-        ctx.fillStyle = colors[index % colors.length];
-        ctx.translate(p.x, p.y);
-        ctx.rotate((Math.random() - 0.5) * 0.45);
-        ctx.fillText('I love you', 0, 0);
-        ctx.restore();
-      }
+    if (start === null) start = now;
+    const elapsed = now-start;
+    trace(Math.min(outline.length-1,Math.floor(elapsed / 1700 * (outline.length-1))));
+    if (elapsed > 1450) {
+      write(Math.min(fillWords.length,Math.floor((elapsed-1450)/2300*fillWords.length)));
     }
-
-    if (index < points.length) {
-      drawingRAF = requestAnimationFrame(step);
+    if (drawn < outline.length-1 || fillWritten < fillWords.length) {
+      drawingRAF = requestAnimationFrame(frame);
     }
   }
-  drawingRAF = requestAnimationFrame(step);
+  drawingRAF = requestAnimationFrame(frame);
 }
+
 
 function clearTypewriter() {
   letterParagraphNodes.forEach(p => p.textContent = '');
