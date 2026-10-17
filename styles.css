@@ -284,3 +284,4 @@ to{opacity:1;transform:translateY(0) scale(1)}
 @media (prefers-reduced-motion: reduce) {
   .bouquet-stage .bouquet-trigger, #heart-canvas { transition: none !important; }
 }
+
