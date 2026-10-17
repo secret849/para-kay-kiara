@@ -244,112 +244,69 @@ function drawHeart() {
   if (!ctx) return;
 
   const { width, height } = heartCanvas;
-  const cx = width / 2, cy = height / 2 + 3, scale = 4.65;
   const phrase = 'I love you';
-  const palette = ['#B96F7D', '#C7828F', '#D9A5AC'];
-  const outline = [];
-
-  for (let i = 0; i <= 320; i++) {
-    const t = i * 2 * Math.PI / 320;
-    outline.push({
-      x: cx + 16 * Math.sin(t) ** 3 * scale,
-      y: cy - (13 * Math.cos(t) - 5 * Math.cos(2 * t) -
-        2 * Math.cos(3 * t) - Math.cos(4 * t)) * scale
-    });
-  }
-
-  function inside(x, y) {
-    let hit = false;
-    for (let i = 0, j = outline.length - 1; i < outline.length; j = i++) {
-      const a = outline[i], b = outline[j];
-      if ((a.y > y) !== (b.y > y) &&
-          x < (b.x - a.x) * (y - a.y) / (b.y - a.y) + a.x) hit = !hit;
-    }
-    return hit;
-  }
-
-  ctx.clearRect(0, 0, width, height);
   ctx.font = "600 7px 'Jost', sans-serif";
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  const wordWidth = ctx.measureText(phrase).width;
-  const step = Math.max(20, wordWidth + 3);
+  const distance = Math.max(21, ctx.measureText(phrase).width + 2);
+  const inks = ['#d58e9b', '#c97d92', '#f0bac4'];
+  const strokes = [];
 
-  // Use a staggered word grid, clipped by the real outline of the heart.
-  const fillWords = [];
-  for (let y = 41, row = 0; y < 175; y += 9, row++) {
-    for (let x = 31 + (row % 2) * step / 2; x < width - 25; x += step) {
-      const half = wordWidth / 2 + 1;
-      if ([[x-half,y-4],[x+half,y-4],[x-half,y+4],[x+half,y+4]]
-          .every(([px,py]) => inside(px,py))) fillWords.push({x,y});
-    }
-  }
-
-  // Also write the phrase around the outline as the "pen" travels.
-  const edgeWords = [];
-  let arc = 0;
-  for (let i = 1; i < outline.length; i++) {
-    const p = outline[i], q = outline[i-1];
-    arc += Math.hypot(p.x-q.x,p.y-q.y);
-    if (arc >= wordWidth * 1.15) {
-      edgeWords.push({index:i,x:p.x,y:p.y});
-      arc = 0;
+  // Three concentric paths made entirely out of the handwritten message.
+  for (const scale of [1, .86, .73]) {
+    let previous = null, travelled = 0;
+    for (let i = 0; i <= 800; i++) {
+      const t = i / 800 * Math.PI * 2;
+      const x = width / 2 + 16 * Math.sin(t) ** 3 * 4.65 * scale;
+      const y = height / 2 + 3 - (13 * Math.cos(t)
+        - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t)
+        - Math.cos(4 * t)) * 4.65 * scale;
+      if (previous) travelled += Math.hypot(x - previous.x, y - previous.y);
+      if (travelled >= distance) {
+        strokes.push({ x, y, color: inks[strokes.length % inks.length] });
+        travelled = 0;
+      }
+      previous = { x, y };
     }
   }
 
   heartCanvas.classList.add('visible');
-  let drawn = 0, edgeWritten = 0, fillWritten = 0;
-  function trace(to) {
-    if (to <= drawn) return;
-    ctx.save();
-    ctx.strokeStyle = 'rgba(199,130,143,.45)';
-    ctx.lineWidth = 1.35;
-    ctx.lineJoin = 'round';
-    ctx.beginPath();
-    ctx.moveTo(outline[drawn].x, outline[drawn].y);
-    for (let i = drawn+1; i <= to; i++) ctx.lineTo(outline[i].x,outline[i].y);
-    ctx.stroke();
-    ctx.restore();
-    drawn = to;
-    while (edgeWritten < edgeWords.length && edgeWords[edgeWritten].index <= drawn) {
-      const p = edgeWords[edgeWritten++];
-      ctx.fillStyle = palette[edgeWritten % palette.length];
-      ctx.fillText(phrase,p.x,p.y);
+  const render = (count, progress) => {
+    ctx.clearRect(0, 0, width, height);
+    // A tiny glowing pen tip traces the phrase as the heart takes shape.
+    for (let i = 0; i < count; i++) {
+      const p = strokes[i];
+      ctx.fillStyle = p.color;
+      ctx.fillText(phrase, p.x, p.y);
     }
-  }
-  function write(to) {
-    while (fillWritten < to) {
-      const i = fillWritten++, p = fillWords[i];
+    if (count > 0 && progress < 1) {
+      const tip = strokes[count - 1];
       ctx.save();
-      ctx.translate(p.x,p.y);
-      ctx.rotate(Math.sin(i * 2.14) * .035);
-      ctx.fillStyle = palette[i % palette.length];
-      ctx.fillText(phrase,0,0);
+      ctx.shadowColor = '#ffb9d3';
+      ctx.shadowBlur = 11;
+      ctx.fillStyle = 'rgba(255,228,238,.95)';
+      ctx.beginPath();
+      ctx.arc(tip.x, tip.y, 2, 0, Math.PI * 2);
+      ctx.fill();
       ctx.restore();
     }
-  }
+  };
 
   if (reducedMotion) {
-    trace(outline.length-1);
-    write(fillWords.length);
+    render(strokes.length, 1);
     return;
   }
-  let start = null;
+  let started = null;
   function frame(now) {
     if (appState !== 'letter') return;
-    if (start === null) start = now;
-    const elapsed = now-start;
-    trace(Math.min(outline.length-1,Math.floor(elapsed / 1700 * (outline.length-1))));
-    if (elapsed > 1450) {
-      write(Math.min(fillWords.length,Math.floor((elapsed-1450)/2300*fillWords.length)));
-    }
-    if (drawn < outline.length-1 || fillWritten < fillWords.length) {
-      drawingRAF = requestAnimationFrame(frame);
-    }
+    if (started === null) started = now;
+    const progress = Math.min(1, (now - started) / 2900);
+    const count = Math.min(strokes.length, Math.ceil(progress * strokes.length));
+    render(count, progress);
+    if (progress < 1) drawingRAF = requestAnimationFrame(frame);
   }
   drawingRAF = requestAnimationFrame(frame);
 }
-
 
 function clearTypewriter() {
   letterParagraphNodes.forEach(p => p.textContent = '');
@@ -433,6 +390,7 @@ async function goToEnvelope() {
   bouquetStage.classList.add('leaving');
   await wait(420);
   bouquetStage.hidden = true;
+  window.BouquetGarden?.stop();
   envelopeStage.hidden = false;
   appState = 'envelope';
 }
@@ -518,6 +476,7 @@ async function restartExperience() {
   bouquetStage.hidden = false;
   bouquetStage.classList.remove('leaving');
   appState = 'bouquet';
+  window.BouquetGarden?.restart();
 }
 
 bouquetBtn.addEventListener('click', goToEnvelope);
