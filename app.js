@@ -68,7 +68,6 @@ let notified = false;
 let typingRAF = 0;
 let drawingRAF = 0;
 let typingDone = false;
-let soundContext = null;
 let temporaryUrl = null;
 
 function wait(ms) {
@@ -182,52 +181,6 @@ try {
 audio.volume=Number(musicVolume.value);
 syncMusicButton();
 syncMusicProgress();
-
-function playOpenSound() {
-  // Envelope flap and paper sliding, using synthesized rustle instead of a chime.
-  try {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) return;
-    soundContext ||= new AudioContextClass();
-    if (soundContext.state === 'suspended') soundContext.resume().catch(() => {});
-    const ctx = soundContext, now = ctx.currentTime;
-
-    function paperRustle(delay, duration, volume, frequency) {
-      const frames = Math.ceil(ctx.sampleRate * duration);
-      const buffer = ctx.createBuffer(1, frames, ctx.sampleRate);
-      const samples = buffer.getChannelData(0);
-      let previous = 0;
-      for (let i = 0; i < frames; i++) {
-        previous = previous * 0.35 + (Math.random() * 2 - 1) * 0.65;
-        samples[i] = previous;
-      }
-      const source = ctx.createBufferSource();
-      const filter = ctx.createBiquadFilter();
-      const gain = ctx.createGain();
-      const start = now + delay;
-      source.buffer = buffer;
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(frequency, start);
-      filter.frequency.exponentialRampToValueAtTime(frequency * .8, start + duration);
-      filter.Q.value = .55;
-      gain.gain.setValueAtTime(.0001, start);
-      gain.gain.linearRampToValueAtTime(volume, start + Math.min(.025, duration / 5));
-      gain.gain.exponentialRampToValueAtTime(volume * .5, start + duration * .6);
-      gain.gain.exponentialRampToValueAtTime(.0001, start + duration);
-      source.connect(filter);
-      filter.connect(gain);
-      gain.connect(ctx.destination);
-      source.start(start);
-      source.stop(start + duration);
-    }
-    paperRustle(0, .12, .16, 1600);       // Opening flap
-    paperRustle(.11, .37, .11, 850);     // Pulling the letter out
-    paperRustle(.43, .21, .07, 2100);   // Light paper flutter
-  } catch {
-    // The letter still opens if sound is unavailable.
-  }
-}
-
 
 function notifyOpenOnce() {
   if (notified) return;
@@ -490,7 +443,6 @@ async function openEnvelope() {
   appState = 'opening';
   envelopeStage.classList.add('opening');
 
-  playOpenSound();
   spawnHeartBurst();
   notifyOpenOnce();
 
