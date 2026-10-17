@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=20261011-1">
+  <link rel="stylesheet" href="styles.css?v=20261017-2">
 </head>
 <body>
 
@@ -45,152 +45,21 @@
   <div class="stage">
 
     <!-- BOUQUET STAGE -->
-    <section id="bouquet-stage" class="bouquet-stage">
-      <div class="intro-tag">for someone special</div>
-      <h1 class="intro-title">Flowers first,<br>then a letter.</h1>
-      <p class="intro-sub">I wanted to give you something soft and sincere.</p>
+    <section id="bouquet-stage" class="bouquet-stage" aria-label="A bouquet for you">
+      <div class="intro-tag">a little something, just for you</div>
+      <h1 class="intro-title">I made a bouquet for you <span aria-hidden="true">♡</span></h1>
+      <p class="intro-sub">A little garden, made with care.</p>
 
-      <button id="bouquet-btn" class="bouquet-trigger" type="button" aria-label="Open the bouquet surprise">
-        <svg class="bouquet-svg" viewBox="0 0 320 390" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="wrap-paper" x1="0" y1="0" x2="1" y2="1">
-              <stop stop-color="#fff6ec"/>
-              <stop offset=".55" stop-color="#eed5d0"/>
-              <stop offset="1" stop-color="#d8a6af"/>
-            </linearGradient>
-            <linearGradient id="inner-paper" x1="0" y1="0" x2="1" y2="1">
-              <stop stop-color="#fce9e6"/>
-              <stop offset="1" stop-color="#e8b9c1"/>
-            </linearGradient>
-            <linearGradient id="satin" x1="0" y1="0" x2="1" y2="1">
-              <stop stop-color="#eea6b7"/>
-              <stop offset=".6" stop-color="#bd657f"/>
-              <stop offset="1" stop-color="#9c4b65"/>
-            </linearGradient>
-            <filter id="rose-shadow" x="-25%" y="-25%" width="150%" height="160%">
-              <feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#743d4d" flood-opacity=".2"/>
-            </filter>
-            <g id="rose-wine">
-<g fill="#843950">
-                <ellipse cx="0" cy="-22" rx="16" ry="24"/><ellipse cx="15.6" cy="-15.6" rx="16" ry="24" transform="rotate(45)"/>
-                <ellipse cx="22" cy="0" rx="16" ry="24" transform="rotate(90)"/><ellipse cx="15.6" cy="15.6" rx="16" ry="24" transform="rotate(135)"/>
-                <ellipse cx="0" cy="22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="-15.6" cy="15.6" rx="16" ry="24" transform="rotate(225)"/>
-                <ellipse cx="-22" cy="0" rx="16" ry="24" transform="rotate(270)"/><ellipse cx="-15.6" cy="-15.6" rx="16" ry="24" transform="rotate(315)"/>
-              </g>
-              <g fill="#B55A72">
-                <ellipse cx="0" cy="-14" rx="12" ry="17"/><ellipse cx="11" cy="-9" rx="12" ry="17" transform="rotate(30)"/>
-                <ellipse cx="14" cy="4" rx="12" ry="17" transform="rotate(75)"/><ellipse cx="6" cy="12" rx="12" ry="17" transform="rotate(115)"/>
-                <ellipse cx="-7" cy="11" rx="12" ry="17" transform="rotate(170)"/><ellipse cx="-14" cy="0" rx="12" ry="17" transform="rotate(235)"/>
-                <ellipse cx="-10" cy="-9" rx="12" ry="17" transform="rotate(300)"/>
-              </g>
-              <circle r="13" fill="#F4A0B2"/>
-            </g>
-            <g id="rose-red">
-<g fill="#A73B55">
-                <ellipse cx="0" cy="-22" rx="16" ry="24"/><ellipse cx="22" cy="0" rx="16" ry="24" transform="rotate(90)"/>
-                <ellipse cx="0" cy="22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="-22" cy="0" rx="16" ry="24" transform="rotate(270)"/>
-                <ellipse cx="15.6" cy="-15.6" rx="16" ry="24" transform="rotate(45)"/><ellipse cx="15.6" cy="15.6" rx="16" ry="24" transform="rotate(135)"/>
-                <ellipse cx="-15.6" cy="15.6" rx="16" ry="24" transform="rotate(225)"/><ellipse cx="-15.6" cy="-15.6" rx="16" ry="24" transform="rotate(315)"/>
-              </g>
-              <g fill="#D35E77">
-                <ellipse cx="0" cy="-14" rx="12" ry="17"/><ellipse cx="11" cy="-9" rx="12" ry="17" transform="rotate(30)"/>
-                <ellipse cx="14" cy="4" rx="12" ry="17" transform="rotate(75)"/><ellipse cx="6" cy="12" rx="12" ry="17" transform="rotate(115)"/>
-                <ellipse cx="-7" cy="11" rx="12" ry="17" transform="rotate(170)"/><ellipse cx="-14" cy="0" rx="12" ry="17" transform="rotate(235)"/>
-                <ellipse cx="-10" cy="-9" rx="12" ry="17" transform="rotate(300)"/>
-              </g>
-              <circle r="13" fill="#F4A1AE"/>
-            </g>
-            <g id="rose-pink">
-<g fill="#C66A8B">
-                <ellipse cx="0" cy="-22" rx="16" ry="24"/><ellipse cx="22" cy="0" rx="16" ry="24" transform="rotate(90)"/>
-                <ellipse cx="0" cy="22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="-22" cy="0" rx="16" ry="24" transform="rotate(270)"/>
-                <ellipse cx="15.6" cy="-15.6" rx="16" ry="24" transform="rotate(45)"/><ellipse cx="15.6" cy="15.6" rx="16" ry="24" transform="rotate(135)"/>
-                <ellipse cx="-15.6" cy="15.6" rx="16" ry="24" transform="rotate(225)"/><ellipse cx="-15.6" cy="-15.6" rx="16" ry="24" transform="rotate(315)"/>
-              </g>
-              <g fill="#ED9CB2">
-                <ellipse cx="0" cy="-14" rx="12" ry="17"/><ellipse cx="11" cy="-9" rx="12" ry="17" transform="rotate(30)"/>
-                <ellipse cx="14" cy="4" rx="12" ry="17" transform="rotate(75)"/><ellipse cx="6" cy="12" rx="12" ry="17" transform="rotate(115)"/>
-                <ellipse cx="-7" cy="11" rx="12" ry="17" transform="rotate(170)"/><ellipse cx="-14" cy="0" rx="12" ry="17" transform="rotate(235)"/>
-                <ellipse cx="-10" cy="-9" rx="12" ry="17" transform="rotate(300)"/>
-              </g>
-              <circle r="13" fill="#FFE1E6"/>
-            </g>
-            <g id="rose-blush">
-<g fill="#D8818B">
-                <ellipse cx="0" cy="-22" rx="16" ry="24"/><ellipse cx="22" cy="0" rx="16" ry="24" transform="rotate(90)"/>
-                <ellipse cx="0" cy="22" rx="16" ry="24" transform="rotate(180)"/><ellipse cx="-22" cy="0" rx="16" ry="24" transform="rotate(270)"/>
-                <ellipse cx="15.6" cy="-15.6" rx="16" ry="24" transform="rotate(45)"/><ellipse cx="15.6" cy="15.6" rx="16" ry="24" transform="rotate(135)"/>
-                <ellipse cx="-15.6" cy="15.6" rx="16" ry="24" transform="rotate(225)"/><ellipse cx="-15.6" cy="-15.6" rx="16" ry="24" transform="rotate(315)"/>
-              </g>
-              <g fill="#F4B9BF">
-                <ellipse cx="0" cy="-14" rx="12" ry="17"/><ellipse cx="11" cy="-9" rx="12" ry="17" transform="rotate(30)"/>
-                <ellipse cx="14" cy="4" rx="12" ry="17" transform="rotate(75)"/><ellipse cx="6" cy="12" rx="12" ry="17" transform="rotate(115)"/>
-                <ellipse cx="-7" cy="11" rx="12" ry="17" transform="rotate(170)"/><ellipse cx="-14" cy="0" rx="12" ry="17" transform="rotate(235)"/>
-                <ellipse cx="-10" cy="-9" rx="12" ry="17" transform="rotate(300)"/>
-              </g>
-              <circle r="13" fill="#FFF0EA"/>
-            </g>
-          </defs>
-
-          <ellipse cx="160" cy="364" rx="95" ry="12" fill="#986574" opacity=".12"/>
-
-          <g fill="none" stroke="#688a66" stroke-width="4.5" stroke-linecap="round">
-            <path d="M153 325 Q112 210 66 105"/>
-            <path d="M153 325 Q130 190 115 76"/>
-            <path d="M153 325 Q158 190 166 66"/>
-            <path d="M153 325 Q190 186 218 91"/>
-            <path d="M153 325 Q217 201 247 135"/>
-            <path d="M153 325 Q121 220 89 158"/>
-            <path d="M153 325 Q150 195 155 142"/>
-            <path d="M153 325 Q178 222 208 156"/>
-          </g>
-
-          <g fill="#719774" stroke="#4d755d" stroke-width="1.2">
-            <ellipse cx="87" cy="181" rx="15" ry="32" transform="rotate(-48 87 181)"/>
-            <ellipse cx="129" cy="192" rx="15" ry="32" transform="rotate(40 129 192)"/>
-            <ellipse cx="207" cy="205" rx="16" ry="35" transform="rotate(47 207 205)"/>
-            <ellipse cx="241" cy="171" rx="13" ry="30" transform="rotate(-32 241 171)"/>
-            <ellipse cx="70" cy="133" rx="11" ry="23" transform="rotate(-42 70 133)"/>
-            <ellipse cx="253" cy="111" rx="12" ry="23" transform="rotate(28 253 111)"/>
-          </g>
-
-          <g fill="#fff7e9" opacity=".95">
-            <g transform="translate(43 91)"><circle r="4"/><circle cx="8" cy="-8" r="3"/><circle cx="-7" cy="-10" r="3"/><circle cx="6" cy="9" r="3"/></g>
-            <g transform="translate(269 91)"><circle r="4"/><circle cx="8" cy="-8" r="3"/><circle cx="-7" cy="-10" r="3"/><circle cx="6" cy="9" r="3"/></g>
-            <g transform="translate(52 155)"><circle r="4"/><circle cx="8" cy="-8" r="3"/><circle cx="-7" cy="-10" r="3"/><circle cx="6" cy="9" r="3"/></g>
-            <g transform="translate(277 179)"><circle r="4"/><circle cx="8" cy="-8" r="3"/><circle cx="-7" cy="-10" r="3"/><circle cx="6" cy="9" r="3"/></g>
-          </g>
-
-          <g filter="url(#rose-shadow)">
-            <use href="#rose-wine" transform="translate(66 105) scale(.82)"/>
-            <use href="#rose-red" transform="translate(115 76) scale(1.02)"/>
-            <use href="#rose-pink" transform="translate(166 66) scale(1.05)"/>
-            <use href="#rose-red" transform="translate(218 91) scale(.94)"/>
-            <use href="#rose-blush" transform="translate(247 135) scale(.79)"/>
-            <use href="#rose-blush" transform="translate(89 158) scale(.82)"/>
-            <use href="#rose-wine" transform="translate(155 142) scale(1.04)"/>
-            <use href="#rose-pink" transform="translate(208 156) scale(.88)"/>
-          </g>
-
-          <path d="M48 192 Q90 218 150 215 Q230 218 269 191 L191 356 Q169 374 155 363 Z" fill="url(#inner-paper)" stroke="#e5bfc1" stroke-width="2"/>
-          <path d="M43 196 Q98 239 156 229 L157 365 Q113 315 43 196Z" fill="url(#wrap-paper)" stroke="#e8c6c5" stroke-width="2"/>
-          <path d="M269 191 Q215 247 157 229 L157 365 Q203 311 269 191Z" fill="#efd1ce" stroke="#e6bec1" stroke-width="2"/>
-          <path d="M155 233 L155 362" stroke="#fff8f0" stroke-width="3" opacity=".65"/>
-
-          <path d="M143 308 Q118 286 112 309 Q108 328 146 325 L158 319Z" fill="url(#satin)"/>
-          <path d="M171 308 Q198 286 206 309 Q207 328 168 325 L157 319Z" fill="url(#satin)"/>
-          <path d="M153 324 L134 353 L154 342 L157 326Z" fill="#be6981"/>
-          <path d="M166 323 L184 354 L164 342 L159 327Z" fill="#d98ba0"/>
-          <ellipse cx="159" cy="318" rx="11" ry="9" fill="#a85872" stroke="#f6c6c9" stroke-width="2"/>
-        </svg>
-
-        <div class="flower-card">
+      <button id="bouquet-btn" class="bouquet-trigger" type="button"
+        aria-label="Continue from the bouquet to your letter">
+        <canvas id="bouquet-canvas" class="bouquet-canvas" width="420" height="440"
+          aria-hidden="true"></canvas>
+        <span class="flower-card">
           These flowers may not be real,<br>
           but the feelings behind them are.
-        </div>
+        </span>
+        <span class="bouquet-note">Tap the flowers to open your letter <span aria-hidden="true">↗</span></span>
       </button>
-
-      <div class="bouquet-note">tap the bouquet 🌹</div>
     </section>
 
     <!-- ENVELOPE STAGE -->
@@ -304,6 +173,7 @@
     </div>
   </section>
 
-  <script src="app.js?v=20261017-1" defer></script>
+  <script src="garden.js?v=20261017-1" defer></script>
+  <script src="app.js?v=20261017-2" defer></script>
 </body>
 </html>
